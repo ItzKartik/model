@@ -1,0 +1,34 @@
+{
+    "color": [
+        {
+            "name": "White",
+            "hex_code": "0xffffff"
+        },
+        {
+            "name": "Blue",
+            "hex_code": "0x0000ff"
+        },
+        {
+            "name": "Pink",
+            "hex_code": "0xFFC0CB"
+        }
+    ],
+    "interior": [
+        {
+            "img_name": "5.jpeg"
+        }
+    ],
+    "exterior": [
+        {
+            "img_name": "9.jpeg"
+        }
+    ],
+    "floor": [
+        {
+            "img_name": "9.jpeg"
+        }
+    ],
+    "price": [
+        "800"
+    ]
+}

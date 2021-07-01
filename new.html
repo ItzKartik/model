@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sketchfab Viewer API example</title>
+
+    <!-- Insert this script -->
+    <script type="text/javascript" src="https://static.sketchfab.com/api/sketchfab-viewer-1.10.1.js"></script>
+    <style>
+        iframe{
+            width: 100%;
+            height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Insert an empty iframe -->
+    <iframe src="" id="api-frame" allow="autoplay; fullscreen; vr" allowvr allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+
+    <!-- Initialize the viewer -->
+    <script type="text/javascript">
+    var iframe = document.getElementById( 'api-frame' );
+    var uid = 'de7db6ca10874367873a2515d99abc8e';
+    var u = 'f4e3aa6b074645e6a70654f9f3626026';
+    var h = '2f2605c9bf4e43ceb8d2f7861eda9a4d';
+    // By default, the latest version of the viewer API will be used.
+    var client = new Sketchfab( iframe );
+
+    // Alternatively, you can request a specific version.
+    // var client = new Sketchfab( '1.10.1', iframe );
+
+    client.init( uid, {
+        success: function onSuccess( api ){
+            api.start();
+            api.addEventListener( 'viewerready', function() {
+            api.addTexture('https://images.pexels.com/photos/8388520/pexels-photo-8388520.jpeg', function(err, textureUid) {
+                if (!err) {
+                    api.updateTexture('https://images.pexels.com/photos/8388520/pexels-photo-8388520.jpeg', textureUid, function(err, textureUid) {
+                        if (!err) {
+                            window.console.log('Replaced texture with UID', textureUid);
+                        }
+                    });
+                    window.console.log('New texture registered with UID', textureUid);
+                }
+            });
+            } );
+        },
+        error: function onError() {
+            console.log( 'Viewer error' );
+        }
+    } );
+    client.init( u, {
+        success: function onSuccess( api ){
+            api.start();
+            api.addEventListener( 'viewerready', function() {
+            api.addTexture('https://images.pexels.com/photos/8388520/pexels-photo-8388520.jpeg', function(err, textureUid) {
+                if (!err) {
+                    api.updateTexture('https://images.pexels.com/photos/8388520/pexels-photo-8388520.jpeg', textureUid, function(err, textureUid) {
+                        if (!err) {
+                            window.console.log('Replaced texture with UID', textureUid);
+                        }
+                    });
+                    window.console.log('New texture registered with UID', textureUid);
+                }
+            });
+            } );
+        },
+        error: function onError() {
+            console.log( 'Viewer error' );
+        }
+    } );
+    // client.init( h, {
+    //     success: function onSuccess( api ){
+    //         api.start();
+    //         api.addEventListener( 'viewerready', function() {
+    //         api.addTexture('https://images.pexels.com/photos/8388520/pexels-photo-8388520.jpeg', function(err, textureUid) {
+    //             if (!err) {
+    //                 api.updateTexture('https://images.pexels.com/photos/8388520/pexels-photo-8388520.jpeg', textureUid, function(err, textureUid) {
+    //                     if (!err) {
+    //                         window.console.log('Replaced texture with UID', textureUid);
+    //                     }
+    //                 });
+    //                 window.console.log('New texture registered with UID', textureUid);
+    //             }
+    //         });
+    //         } );
+    //     },
+    //     error: function onError() {
+    //         console.log( 'Viewer error' );
+    //     }
+    // } );
+    </script>
+</body>
+</html>
