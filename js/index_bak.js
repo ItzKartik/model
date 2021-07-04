@@ -5,7 +5,7 @@ vars = [interior, exterior, normal, floor];
 
 function init() {
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x1d1e1f);
+    scene.background = new THREE.Color(0xffffff);
 
     camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 10, 1800);
     camera.position.z = 100;
@@ -30,12 +30,11 @@ function init() {
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
 
-    // var hemiLight = new THREE.HemisphereLight();
-    // scene.add(hemiLight);
-    var ambLight = new THREE.AmbientLight(0xffffff, 1);
-    scene.add(ambLight);
+    var hemiLight = new THREE.HemisphereLight();
+    scene.add(hemiLight);
 
     loader = new THREE.GLTFLoader();
+    loader.crossOrigin = true;
 
     load_obj();
     // change_tex('5.jpeg', 'interior');
@@ -45,7 +44,7 @@ function init() {
 
     render();
 
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', function () {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -65,22 +64,26 @@ function resizeRendererToDisplaySize(renderer) {
     }
     return needResize;
 }
-size = 8;
 
 function load_obj() {
     var textureLoader = new THREE.TextureLoader();
-    var texture = textureLoader.load('tex/4.jpg');
+    var texture = textureLoader.load('tex/5.jpeg');
     texture.flipY = false;
 
     for (var i = 0; i < mdls.length; i++) {
+        if (mdls[i].includes('interior')){
+            console.log('interior');
+            size = 8;
+        } else {
+            size = 8;
+        } 
         vars[i] = new THREE.GLTFLoader();
-        vars[i].load('objs/' + mdls[i], (gltf) => {
+        vars[i].load('objs/'+mdls[i], (gltf) => {
             var model = gltf.scene;
-            model.scale.set(size, size, size);
+            model.scale.set(size,size,size);
             model.traverse((o) => {
                 if (o.isMesh) {
-                    // o.material.map = texture;
-                    o.material.normalMap;
+                    o.material.normalMap = texture;
                 }
             });
             scene.add(model);
@@ -96,11 +99,13 @@ export function change_tex(tex, type) {
     if (type == 'interior') {
         interior = null;
         interior = new THREE.GLTFLoader();
-        interior.load('objs/' + type + '.glb', function(gltf) {
+        interior.load('objs/'+type+'.glb', function (gltf) {
             var model = gltf.scene;
-            model.scale.set(size, size, size);
+            model.scale.set(size,size,size);
             model.traverse((o) => {
                 if (o.isMesh) {
+                    o.material.map = null;
+                    o.material.needsUpdate = true;
                     o.material.map = texture;
                 }
             });
@@ -109,11 +114,13 @@ export function change_tex(tex, type) {
     } else if (type == 'exterior') {
         exterior = null;
         exterior = new THREE.GLTFLoader();
-        exterior.load('objs/' + type + '.glb', function(gltf) {
+        exterior.load('objs/'+type+'.glb', function (gltf) {
             var model = gltf.scene;
-            model.scale.set(size, size, size);
+            model.scale.set(size,size,size);
             model.traverse((o) => {
                 if (o.isMesh) {
+                    o.material.map = null;
+                    o.material.needsUpdate = true;
                     o.material.map = texture;
                 }
             });
@@ -122,11 +129,13 @@ export function change_tex(tex, type) {
     } else if (type == 'floor') {
         exterior = null;
         exterior = new THREE.GLTFLoader();
-        exterior.load('objs/' + type + '.glb', function(gltf) {
+        exterior.load('objs/'+type+'.glb', function (gltf) {
             var model = gltf.scene;
-            model.scale.set(size, size, size);
+            model.scale.set(size,size,size);
             model.traverse((o) => {
                 if (o.isMesh) {
+                    o.material.map = null;
+                    o.material.needsUpdate = true;
                     o.material.map = texture;
                 }
             });
@@ -136,9 +145,9 @@ export function change_tex(tex, type) {
         for (var i = 0; i < mdls.length; i++) {
             vars[i] = null;
             vars[i] = new THREE.GLTFLoader();
-            vars[i].load('objs/' + mdls[i], (gltf) => {
+            vars[i].load('objs/'+mdls[i], (gltf) => {
                 var model = gltf.scene;
-                model.scale.set(size, size, size);
+                model.scale.set(size,size,size);
                 model.traverse((o) => {
                     if (o.isMesh) {
                         o.material.map = null;
@@ -152,12 +161,14 @@ export function change_tex(tex, type) {
     } else if (type == 'normal') {
         normal = null;
         normal = new THREE.GLTFLoader();
-        normal.load('objs/' + type + '.glb', function(gltf) {
+        normal.load('objs/'+type+'.glb', function (gltf) {
             var model = gltf.scene;
-            model.scale.set(size, size, size);
+            model.scale.set(size,size,size);
             model.traverse((o) => {
                 if (o.isMesh) {
-                    o.material.normalMap = texture;
+                    o.material.map = null;
+                    o.material.needsUpdate = true;
+                    o.material.map = texture;
                 }
             });
             scene.add(model);
